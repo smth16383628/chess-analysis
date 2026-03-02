@@ -3,9 +3,8 @@
 <head>
 <title>Chess Analyzer</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
-
 <style>
+
 body{
 font-family:Arial;
 padding:40px;
@@ -42,7 +41,9 @@ margin-top:10px;
 padding:10px;
 margin-right:5px;
 }
+
 </style>
+
 </head>
 
 <body>
@@ -52,77 +53,89 @@ margin-right:5px;
 <div id="board"></div>
 
 <p>Paste PGN:</p>
-<textarea id="pgn"></textarea><br>
+
+<textarea id="pgn"></textarea>
+<br>
 
 <button onclick="loadGame()">Load Game</button>
 <button onclick="nextMove()">Next Move</button>
 
+<p id="currentMove">Current move: none</p>
+
 <script>
-const chess = new Chess();
-const board = document.getElementById("board");
 
-let moves = [];
-let moveIndex = 0;
+const board = document.getElementById("board")
 
-const pieceSymbols = {
-p:"♟", r:"♜", n:"♞", b:"♝", q:"♛", k:"♚",
-P:"♙", R:"♖", N:"♘", B:"♗", Q:"♕", K:"♔"
-};
+const startPosition = [
+"♜","♞","♝","♛","♚","♝","♞","♜",
+"♟","♟","♟","♟","♟","♟","♟","♟",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"♙","♙","♙","♙","♙","♙","♙","♙",
+"♖","♘","♗","♕","♔","♗","♘","♖"
+]
+
+let boardState=[...startPosition]
+
+let moves=[]
+let moveIndex=0
 
 function drawBoard(){
-board.innerHTML="";
 
-const state = chess.board();
+board.innerHTML=""
 
-for(let r=0;r<8;r++){
-for(let c=0;c<8;c++){
+for(let i=0;i<64;i++){
 
-let square=document.createElement("div");
-square.className="square";
+let square=document.createElement("div")
+square.className="square"
 
-if((r+c)%2==0) square.classList.add("light");
-else square.classList.add("dark");
+let row=Math.floor(i/8)
+let col=i%8
 
-let piece = state[r][c];
-
-if(piece){
-let key = piece.color==="w" ? piece.type.toUpperCase() : piece.type;
-square.textContent = pieceSymbols[key];
+if((row+col)%2==0){
+square.classList.add("light")
+}else{
+square.classList.add("dark")
 }
 
-board.appendChild(square);
+square.textContent=boardState[i]
+
+board.appendChild(square)
 
 }
-}
+
 }
 
 function loadGame(){
 
-let pgn=document.getElementById("pgn").value;
+let pgn=document.getElementById("pgn").value
 
-chess.reset();
-chess.load_pgn(pgn);
+moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
 
-moves = chess.history();
-moveIndex = 0;
+moveIndex=0
 
-chess.reset();
-drawBoard();
+document.getElementById("currentMove").innerText="Game loaded"
 
 }
 
 function nextMove(){
 
-if(moveIndex>=moves.length) return;
+if(moveIndex>=moves.length){
+document.getElementById("currentMove").innerText="End of game"
+return
+}
 
-chess.move(moves[moveIndex]);
-moveIndex++;
+document.getElementById("currentMove").innerText=
+"Current move: "+moves[moveIndex]
 
-drawBoard();
+moveIndex++
 
 }
 
-drawBoard();
+drawBoard()
+
 </script>
 
 </body>
