@@ -4,12 +4,6 @@
 <title>Chess Analyzer</title>
 
 <style>
-
-body{
-font-family:Arial;
-padding:40px;
-}
-
 #board{
 width:400px;
 height:400px;
@@ -27,19 +21,6 @@ font-size:32px;
 
 .light{background:#f0d9b5;}
 .dark{background:#b58863;}
-
-textarea{
-width:400px;
-height:120px;
-margin-top:20px;
-}
-
-button{
-margin-top:10px;
-padding:10px;
-margin-right:5px;
-}
-
 </style>
 </head>
 
@@ -49,22 +30,11 @@ margin-right:5px;
 
 <div id="board"></div>
 
-<p>Paste PGN:</p>
-
-<textarea id="pgn"></textarea>
-
-<br>
-
-<button onclick="loadGame()">Load Game</button>
-<button onclick="nextMove()">Next Move</button>
-
-<p id="moveDisplay">Current move: none</p>
-
 <script>
 
-const board=document.getElementById("board")
+const board = document.getElementById("board")
 
-let pieces=[
+const pieces=[
 "♜","♞","♝","♛","♚","♝","♞","♜",
 "♟","♟","♟","♟","♟","♟","♟","♟",
 "","","","","","","","",
@@ -74,13 +44,6 @@ let pieces=[
 "♙","♙","♙","♙","♙","♙","♙","♙",
 "♖","♘","♗","♕","♔","♗","♘","♖"
 ]
-
-let moves=[]
-let moveIndex=0
-
-function drawBoard(){
-
-board.innerHTML=""
 
 for(let i=0;i<64;i++){
 
@@ -102,35 +65,6 @@ sq.innerText=pieces[i]
 board.appendChild(sq)
 
 }
-
-}
-
-function loadGame(){
-
-let pgn=document.getElementById("pgn").value
-
-moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
-
-moveIndex=0
-
-document.getElementById("moveDisplay").innerText="Game loaded"
-
-}
-
-function nextMove(){
-
-if(moveIndex>=moves.length){
-document.getElementById("moveDisplay").innerText="End of game"
-return
-}
-
-document.getElementById("moveDisplay").innerText="Move: "+moves[moveIndex]
-
-moveIndex++
-
-}
-
-drawBoard()
 
 </script>
 
