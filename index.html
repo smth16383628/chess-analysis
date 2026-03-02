@@ -1,32 +1,52 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>Chess Game Analyzer</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
+
 </head>
 
 <body>
 
 <h1>Free Chess Game Analyzer</h1>
 
-<p>Paste your PGN from chess.com:</p>
+<div id="board" style="width: 400px"></div>
+
+<br>
+
+<p>Paste PGN from chess.com:</p>
 
 <textarea id="pgn" rows="10" cols="60"></textarea>
+
 <br><br>
 
-<button onclick="analyze()">Analyze Game</button>
-
-<p id="result"></p>
+<button onclick="loadGame()">Load Game</button>
 
 <script>
 
-function analyze(){
-    let pgn = document.getElementById("pgn").value;
+var board = Chessboard('board', 'start');
+var game = new Chess();
 
-    document.getElementById("result").innerHTML =
-    "Game received. Analysis feature coming soon.";
+function loadGame(){
+
+var pgn = document.getElementById("pgn").value;
+
+game.load_pgn(pgn);
+
+board.position(game.fen());
+
 }
 
 </script>
 
 </body>
+
 </html>
