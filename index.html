@@ -38,6 +38,7 @@ height:120px;
 button{
 margin-top:10px;
 padding:10px;
+margin-right:5px;
 }
 </style>
 
@@ -53,13 +54,15 @@ padding:10px;
 
 <textarea id="pgn"></textarea>
 <br>
+
 <button onclick="loadGame()">Load Game</button>
+<button onclick="nextMove()">Next Move</button>
 
 <script>
 
 const board = document.getElementById("board")
 
-const pieces = [
+let pieces = [
 "♜","♞","♝","♛","♚","♝","♞","♜",
 "♟","♟","♟","♟","♟","♟","♟","♟",
 "","","","","","","","",
@@ -69,6 +72,9 @@ const pieces = [
 "♙","♙","♙","♙","♙","♙","♙","♙",
 "♖","♘","♗","♕","♔","♗","♘","♖"
 ]
+
+let moves=[]
+let moveIndex=0
 
 function drawBoard(){
 
@@ -94,7 +100,28 @@ board.appendChild(sq)
 }
 
 function loadGame(){
-alert("PGN received")
+
+let pgn=document.getElementById("pgn").value
+
+moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
+
+moveIndex=0
+
+alert("Game loaded. Click Next Move.")
+
+}
+
+function nextMove(){
+
+if(moveIndex>=moves.length){
+alert("Game finished")
+return
+}
+
+alert("Move: "+moves[moveIndex])
+
+moveIndex++
+
 }
 
 drawBoard()
