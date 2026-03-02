@@ -8,6 +8,8 @@
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
@@ -54,10 +56,10 @@ font-size:16px;
 
 <script>
 
-let board
-let game
+var board
+var game
 
-window.onload = function(){
+$(document).ready(function(){
 
 game = new Chess()
 
@@ -65,11 +67,11 @@ board = Chessboard('board',{
 position:'start'
 })
 
-}
+})
 
 function loadGame(){
 
-let pgn = document.getElementById("pgn").value
+var pgn = document.getElementById("pgn").value
 
 game.load_pgn(pgn)
 
