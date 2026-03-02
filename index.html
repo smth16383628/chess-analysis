@@ -80,7 +80,7 @@ function drawBoard(){
 
 board.innerHTML=""
 
-const boardState = chess.board()
+const state = chess.board()
 
 for(let r=0;r<8;r++){
 
@@ -93,7 +93,7 @@ square.className="square"
 if((r+c)%2==0) square.classList.add("light")
 else square.classList.add("dark")
 
-let piece = boardState[r][c]
+let piece = state[r][c]
 
 if(piece){
 let symbol = pieceSymbols[
@@ -116,9 +116,13 @@ chess.reset()
 
 let pgn=document.getElementById("pgn").value
 
-moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
+chess.load_pgn(pgn)
 
-moveIndex=0
+moves = chess.history()
+
+moveIndex = 0
+
+chess.reset()
 
 drawBoard()
 
