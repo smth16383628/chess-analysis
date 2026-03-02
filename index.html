@@ -43,6 +43,12 @@ padding:10px;
 margin-right:5px;
 }
 
+#currentMove{
+margin-top:15px;
+font-size:18px;
+font-weight:bold;
+}
+
 </style>
 
 </head>
@@ -61,6 +67,8 @@ margin-right:5px;
 <button onclick="loadGame()">Load Game</button>
 <button onclick="nextMove()">Next Move</button>
 
+<p id="currentMove">Current move: none</p>
+
 <script>
 
 const board = document.getElementById("board")
@@ -76,7 +84,8 @@ const startPosition = [
 "♖","♘","♗","♕","♔","♗","♘","♖"
 ]
 
-let boardState = [...startPosition]
+let boardState=[...startPosition]
+
 let moves=[]
 let moveIndex=0
 
@@ -114,18 +123,19 @@ moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
 
 moveIndex=0
 
-alert("Game loaded")
+document.getElementById("currentMove").innerText="Game loaded"
 
 }
 
 function nextMove(){
 
 if(moveIndex>=moves.length){
-alert("End of game")
+document.getElementById("currentMove").innerText="End of game"
 return
 }
 
-alert("Move: "+moves[moveIndex])
+document.getElementById("currentMove").innerText=
+"Current move: "+moves[moveIndex]
 
 moveIndex++
 
