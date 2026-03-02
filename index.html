@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Chess Analyzer</title>
+<title>Chess Test</title>
 
 <style>
-
-body{
-font-family:Arial;
-padding:40px;
-}
-
 #board{
 width:400px;
 height:400px;
@@ -19,122 +13,47 @@ border:2px solid black;
 }
 
 .square{
-width:50px;
-height:50px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:28px;
+font-size:30px;
 }
 
 .light{background:#f0d9b5;}
 .dark{background:#b58863;}
-
-textarea{
-margin-top:20px;
-width:400px;
-height:120px;
-}
-
-button{
-margin-top:10px;
-padding:10px;
-margin-right:5px;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<h1>Chess Analyzer</h1>
+<h1>Board Test</h1>
 
 <div id="board"></div>
-
-<p>Paste PGN:</p>
-
-<textarea id="pgn"></textarea>
-<br>
-
-<button onclick="loadGame()">Load Game</button>
-<button onclick="nextMove()">Next Move</button>
-
-<p id="currentMove">Current move: none</p>
 
 <script>
 
 const board = document.getElementById("board")
 
-const startPosition = [
-"♜","♞","♝","♛","♚","♝","♞","♜",
-"♟","♟","♟","♟","♟","♟","♟","♟",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"♙","♙","♙","♙","♙","♙","♙","♙",
-"♖","♘","♗","♕","♔","♗","♘","♖"
-]
-
-let boardState=[...startPosition]
-
-let moves=[]
-let moveIndex=0
-
-function drawBoard(){
-
-board.innerHTML=""
-
 for(let i=0;i<64;i++){
 
-let square=document.createElement("div")
-square.className="square"
+let sq=document.createElement("div")
+
+sq.className="square"
 
 let row=Math.floor(i/8)
 let col=i%8
 
 if((row+col)%2==0){
-square.classList.add("light")
+sq.classList.add("light")
 }else{
-square.classList.add("dark")
+sq.classList.add("dark")
 }
 
-square.textContent=boardState[i]
+sq.innerText="."
 
-board.appendChild(square)
-
-}
+board.appendChild(sq)
 
 }
-
-function loadGame(){
-
-let pgn=document.getElementById("pgn").value
-
-moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
-
-moveIndex=0
-
-document.getElementById("currentMove").innerText="Game loaded"
-
-}
-
-function nextMove(){
-
-if(moveIndex>=moves.length){
-document.getElementById("currentMove").innerText="End of game"
-return
-}
-
-document.getElementById("currentMove").innerText=
-"Current move: "+moves[moveIndex]
-
-moveIndex++
-
-}
-
-drawBoard()
 
 </script>
 
