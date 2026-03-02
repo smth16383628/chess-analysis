@@ -2,14 +2,39 @@
 <html>
 
 <head>
+
 <title>Free Chess Analyzer</title>
 
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css">
+href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
+
+<style>
+
+body{
+font-family: Arial;
+padding:40px;
+}
+
+#board{
+width:400px;
+margin-bottom:20px;
+}
+
+textarea{
+width:500px;
+height:150px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+}
+
+</style>
 
 </head>
 
@@ -17,13 +42,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.
 
 <h1>Free Chess Game Analyzer</h1>
 
-<div id="board" style="width: 400px"></div>
-
-<br>
+<div id="board"></div>
 
 <p>Paste your PGN:</p>
 
-<textarea id="pgn" rows="10" cols="60"></textarea>
+<textarea id="pgn"></textarea>
 
 <br><br>
 
@@ -31,16 +54,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.
 
 <script>
 
-var board = Chessboard('board', 'start');
-var game = new Chess();
+let board
+let game
+
+window.onload = function(){
+
+game = new Chess()
+
+board = Chessboard('board',{
+position:'start'
+})
+
+}
 
 function loadGame(){
 
-var pgn = document.getElementById("pgn").value;
+let pgn = document.getElementById("pgn").value
 
-game.load_pgn(pgn);
+game.load_pgn(pgn)
 
-board.position(game.fen());
+board.position(game.fen())
 
 }
 
