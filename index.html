@@ -19,12 +19,18 @@ padding:40px;
 
 #board{
 width:400px;
+margin-bottom:20px;
 }
 
 textarea{
 width:400px;
 height:120px;
-margin-top:20px;
+}
+
+button{
+padding:10px;
+margin-right:5px;
+margin-top:10px;
 }
 </style>
 
@@ -36,7 +42,10 @@ margin-top:20px;
 
 <div id="board"></div>
 
+<p>Paste PGN:</p>
+
 <textarea id="pgn"></textarea>
+
 <br>
 
 <button onclick="loadGame()">Load Game</button>
@@ -44,7 +53,11 @@ margin-top:20px;
 
 <script>
 
-var board = Chessboard('board', 'start')
+var board = Chessboard('board', {
+position: 'start',
+pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+})
+
 var game = new Chess()
 
 var moves=[]
