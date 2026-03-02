@@ -4,6 +4,8 @@
 
 <title>Chess Analyzer</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
+
 <style>
 
 body{
@@ -43,12 +45,6 @@ padding:10px;
 margin-right:5px;
 }
 
-#currentMove{
-margin-top:15px;
-font-size:18px;
-font-weight:bold;
-}
-
 </style>
 
 </head>
@@ -67,47 +63,44 @@ font-weight:bold;
 <button onclick="loadGame()">Load Game</button>
 <button onclick="nextMove()">Next Move</button>
 
-<p id="currentMove">Current move: none</p>
-
 <script>
 
+const chess = new Chess()
 const board = document.getElementById("board")
-
-const startPosition = [
-"♜","♞","♝","♛","♚","♝","♞","♜",
-"♟","♟","♟","♟","♟","♟","♟","♟",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"♙","♙","♙","♙","♙","♙","♙","♙",
-"♖","♘","♗","♕","♔","♗","♘","♖"
-]
-
-let boardState=[...startPosition]
 
 let moves=[]
 let moveIndex=0
+
+const pieceSymbols={
+p:"♟",r:"♜",n:"♞",b:"♝",q:"♛",k:"♚",
+P:"♙",R:"♖",N:"♘",B:"♗",Q:"♕",K:"♔"
+}
 
 function drawBoard(){
 
 board.innerHTML=""
 
-for(let i=0;i<64;i++){
+const boardState = chess.board()
+
+for(let r=0;r<8;r++){
+
+for(let c=0;c<8;c++){
 
 let square=document.createElement("div")
+
 square.className="square"
 
-let row=Math.floor(i/8)
-let col=i%8
+if((r+c)%2==0) square.classList.add("light")
+else square.classList.add("dark")
 
-if((row+col)%2==0){
-square.classList.add("light")
-}else{
-square.classList.add("dark")
+let piece = boardState[r][c]
+
+if(piece){
+let symbol = pieceSymbols[
+piece.color==="w" ? piece.type.toUpperCase() : piece.type
+]
+square.textContent = symbol
 }
-
-square.textContent=boardState[i]
 
 board.appendChild(square)
 
@@ -115,7 +108,11 @@ board.appendChild(square)
 
 }
 
+}
+
 function loadGame(){
+
+chess.reset()
 
 let pgn=document.getElementById("pgn").value
 
@@ -123,21 +120,19 @@ moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
 
 moveIndex=0
 
-document.getElementById("currentMove").innerText="Game loaded"
+drawBoard()
 
 }
 
 function nextMove(){
 
-if(moveIndex>=moves.length){
-document.getElementById("currentMove").innerText="End of game"
-return
-}
+if(moveIndex>=moves.length) return
 
-document.getElementById("currentMove").innerText=
-"Current move: "+moves[moveIndex]
+chess.move(moves[moveIndex])
 
 moveIndex++
+
+drawBoard()
 
 }
 
