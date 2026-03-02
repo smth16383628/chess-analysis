@@ -1,3 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chess Analyzer</title>
+
+<style>
+body{
+font-family:Arial;
+padding:40px;
+}
+
+#board{
+width:400px;
+height:400px;
+display:grid;
+grid-template-columns:repeat(8,1fr);
+border:2px solid black;
+}
+
+.square{
+width:50px;
+height:50px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+}
+
+.light{background:#f0d9b5;}
+.dark{background:#b58863;}
+
+textarea{
+margin-top:20px;
+width:400px;
+height:120px;
+}
+
+button{
+margin-top:10px;
+padding:10px;
+}
+
+#moves{
+margin-top:20px;
+font-size:18px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Chess Analyzer</h1>
+
+<div id="board"></div>
+
+<p>Paste PGN:</p>
+
+<textarea id="pgn"></textarea>
+<br>
+<button onclick="loadGame()">Load Game</button>
+
+<div id="moves"></div>
+
+<script>
+
+const board = document.getElementById("board")
+const movesDiv = document.getElementById("moves")
+
+const pieces = [
+"♜","♞","♝","♛","♚","♝","♞","♜",
+"♟","♟","♟","♟","♟","♟","♟","♟",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"♙","♙","♙","♙","♙","♙","♙","♙",
+"♖","♘","♗","♕","♔","♗","♘","♖"
+]
+
+function drawBoard(){
+
+board.innerHTML=""
+
+for(let i=0;i<64;i++){
+
+let sq=document.createElement("div")
+sq.classList.add("square")
+
+let row=Math.floor(i/8)
+let col=i%8
+
+if((row+col)%2==0) sq.classList.add("light")
+else sq.classList.add("dark")
+
+sq.textContent=pieces[i]
+
+board.appendChild(sq)
+
+}
+
+}
+
+function loadGame(){
+
+let pgn=document.getElementById("pgn").value
+
+let moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
+
+movesDiv.innerHTML="<b>Moves:</b><br>"+moves.join(" ")
+
+}
+
+drawBoard()
+
 let moves = []
 let moveIndex = 0
 
@@ -63,3 +178,6 @@ moveIndex++
 }
 
 drawBoard()
+
+</body>
+</html>
