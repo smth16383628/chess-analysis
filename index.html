@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Chess Analyzer</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
-
 <style>
+
 body{
 font-family:Arial;
 padding:40px;
@@ -19,21 +12,35 @@ padding:40px;
 
 #board{
 width:400px;
-margin-bottom:20px;
+height:400px;
+display:grid;
+grid-template-columns:repeat(8,1fr);
+border:2px solid black;
 }
+
+.square{
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:32px;
+}
+
+.light{background:#f0d9b5;}
+.dark{background:#b58863;}
 
 textarea{
 width:400px;
 height:120px;
+margin-top:20px;
 }
 
 button{
+margin-top:10px;
 padding:10px;
 margin-right:5px;
-margin-top:10px;
 }
-</style>
 
+</style>
 </head>
 
 <body>
@@ -51,45 +58,79 @@ margin-top:10px;
 <button onclick="loadGame()">Load Game</button>
 <button onclick="nextMove()">Next Move</button>
 
+<p id="moveDisplay">Current move: none</p>
+
 <script>
 
-var board = Chessboard('board', {
-position: 'start',
-pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
-})
+const board=document.getElementById("board")
 
-var game = new Chess()
+let pieces=[
+"♜","♞","♝","♛","♚","♝","♞","♜",
+"♟","♟","♟","♟","♟","♟","♟","♟",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"♙","♙","♙","♙","♙","♙","♙","♙",
+"♖","♘","♗","♕","♔","♗","♘","♖"
+]
 
-var moves=[]
-var moveIndex=0
+let moves=[]
+let moveIndex=0
+
+function drawBoard(){
+
+board.innerHTML=""
+
+for(let i=0;i<64;i++){
+
+let sq=document.createElement("div")
+
+sq.className="square"
+
+let row=Math.floor(i/8)
+let col=i%8
+
+if((row+col)%2==0){
+sq.classList.add("light")
+}else{
+sq.classList.add("dark")
+}
+
+sq.innerText=pieces[i]
+
+board.appendChild(sq)
+
+}
+
+}
 
 function loadGame(){
 
-var pgn=document.getElementById("pgn").value
+let pgn=document.getElementById("pgn").value
 
-game.load_pgn(pgn)
-
-moves=game.history()
+moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
 
 moveIndex=0
 
-game.reset()
-
-board.start()
+document.getElementById("moveDisplay").innerText="Game loaded"
 
 }
 
 function nextMove(){
 
-if(moveIndex>=moves.length) return
+if(moveIndex>=moves.length){
+document.getElementById("moveDisplay").innerText="End of game"
+return
+}
 
-game.move(moves[moveIndex])
-
-board.position(game.fen())
+document.getElementById("moveDisplay").innerText="Move: "+moves[moveIndex]
 
 moveIndex++
 
 }
+
+drawBoard()
 
 </script>
 
