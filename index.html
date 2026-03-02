@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Chess Analyzer</title>
 
 <style>
+
 body{
 font-family:Arial;
 padding:40px;
@@ -40,6 +42,7 @@ margin-top:10px;
 padding:10px;
 margin-right:5px;
 }
+
 </style>
 
 </head>
@@ -62,7 +65,7 @@ margin-right:5px;
 
 const board = document.getElementById("board")
 
-let pieces = [
+const startPosition = [
 "♜","♞","♝","♛","♚","♝","♞","♜",
 "♟","♟","♟","♟","♟","♟","♟","♟",
 "","","","","","","","",
@@ -73,6 +76,7 @@ let pieces = [
 "♖","♘","♗","♕","♔","♗","♘","♖"
 ]
 
+let boardState = [...startPosition]
 let moves=[]
 let moveIndex=0
 
@@ -82,18 +86,21 @@ board.innerHTML=""
 
 for(let i=0;i<64;i++){
 
-let sq=document.createElement("div")
-sq.classList.add("square")
+let square=document.createElement("div")
+square.className="square"
 
 let row=Math.floor(i/8)
 let col=i%8
 
-if((row+col)%2==0) sq.classList.add("light")
-else sq.classList.add("dark")
+if((row+col)%2==0){
+square.classList.add("light")
+}else{
+square.classList.add("dark")
+}
 
-sq.textContent=pieces[i]
+square.textContent=boardState[i]
 
-board.appendChild(sq)
+board.appendChild(square)
 
 }
 
