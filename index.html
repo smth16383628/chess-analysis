@@ -38,11 +38,7 @@ height:120px;
 button{
 margin-top:10px;
 padding:10px;
-}
-
-#moves{
-margin-top:20px;
-font-size:18px;
+margin-right:5px;
 }
 </style>
 
@@ -62,61 +58,7 @@ font-size:18px;
 <button onclick="loadGame()">Load Game</button>
 <button onclick="nextMove()">Next Move</button>
 
-<div id="moves"></div>
-
 <script>
-
-const board = document.getElementById("board")
-const movesDiv = document.getElementById("moves")
-
-const pieces = [
-"♜","♞","♝","♛","♚","♝","♞","♜",
-"♟","♟","♟","♟","♟","♟","♟","♟",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"♙","♙","♙","♙","♙","♙","♙","♙",
-"♖","♘","♗","♕","♔","♗","♘","♖"
-]
-
-function drawBoard(){
-
-board.innerHTML=""
-
-for(let i=0;i<64;i++){
-
-let sq=document.createElement("div")
-sq.classList.add("square")
-
-let row=Math.floor(i/8)
-let col=i%8
-
-if((row+col)%2==0) sq.classList.add("light")
-else sq.classList.add("dark")
-
-sq.textContent=pieces[i]
-
-board.appendChild(sq)
-
-}
-
-}
-
-function loadGame(){
-
-let pgn=document.getElementById("pgn").value
-
-let moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
-
-movesDiv.innerHTML="<b>Moves:</b><br>"+moves.join(" ")
-
-}
-
-drawBoard()
-
-let moves = []
-let moveIndex = 0
 
 const board = document.getElementById("board")
 
@@ -131,6 +73,9 @@ let pieces = [
 "♖","♘","♗","♕","♔","♗","♘","♖"
 ]
 
+let moves=[]
+let moveIndex=0
+
 function drawBoard(){
 
 board.innerHTML=""
@@ -158,28 +103,30 @@ function loadGame(){
 
 let pgn=document.getElementById("pgn").value
 
-moves = pgn.replace(/\d+\./g,"").trim().split(/\s+/)
+moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
 
-moveIndex = 0
+moveIndex=0
 
-alert("Game loaded. Use Next Move.")
+alert("Game loaded")
 
 }
 
 function nextMove(){
 
-if(moveIndex >= moves.length){
+if(moveIndex>=moves.length){
 alert("End of game")
 return
 }
 
-alert("Move: " + moves[moveIndex])
+alert("Move: "+moves[moveIndex])
 
 moveIndex++
 
 }
 
 drawBoard()
+
+</script>
 
 </body>
 </html>
