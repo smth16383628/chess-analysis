@@ -39,6 +39,11 @@ button{
 margin-top:10px;
 padding:10px;
 }
+
+#moves{
+margin-top:20px;
+font-size:18px;
+}
 </style>
 
 </head>
@@ -55,9 +60,12 @@ padding:10px;
 <br>
 <button onclick="loadGame()">Load Game</button>
 
+<div id="moves"></div>
+
 <script>
 
 const board = document.getElementById("board")
+const movesDiv = document.getElementById("moves")
 
 const pieces = [
 "♜","♞","♝","♛","♚","♝","♞","♜",
@@ -94,7 +102,13 @@ board.appendChild(sq)
 }
 
 function loadGame(){
-alert("PGN loaded (analysis coming next)")
+
+let pgn=document.getElementById("pgn").value
+
+let moves=pgn.replace(/\d+\./g,"").trim().split(/\s+/)
+
+movesDiv.innerHTML="<b>Moves:</b><br>"+moves.join(" ")
+
 }
 
 drawBoard()
