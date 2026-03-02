@@ -2,38 +2,66 @@
 <html>
 <head>
 
-<title>Free Chess Analyzer</title>
+<title>Chess Analyzer</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
 
 <style>
 
 body{
 font-family:Arial;
-padding:40px;
+background:#1f1f1f;
+color:white;
+display:flex;
+justify-content:center;
+padding-top:40px;
+}
+
+.container{
+display:flex;
+gap:40px;
 }
 
 #board{
-width:400px;
-margin-bottom:20px;
+width:450px;
+}
+
+.panel{
+width:300px;
 }
 
 textarea{
-width:400px;
-height:120px;
+width:100%;
+height:150px;
+background:#2c2c2c;
+color:white;
+border:none;
+padding:10px;
 }
 
 button{
-padding:10px;
-font-size:16px;
 margin-top:10px;
+padding:12px;
+width:100%;
+background:#4CAF50;
+color:white;
+border:none;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#45a049;
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
 }
 
 </style>
@@ -42,17 +70,24 @@ margin-top:10px;
 
 <body>
 
-<h1>Free Chess Game Analyzer</h1>
+<div class="container">
 
+<div>
+<h1>Chess Analyzer</h1>
 <div id="board"></div>
+</div>
+
+<div class="panel">
 
 <p>Paste PGN from chess.com:</p>
 
 <textarea id="pgn"></textarea>
 
-<br>
-
 <button onclick="loadGame()">Load Game</button>
+
+</div>
+
+</div>
 
 <script>
 
