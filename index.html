@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Chess Test</title>
+<title>Chess Analyzer</title>
 
 <style>
+
 #board{
 width:400px;
 height:400px;
@@ -16,23 +17,35 @@ border:2px solid black;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:30px;
+font-size:32px;
 }
 
 .light{background:#f0d9b5;}
 .dark{background:#b58863;}
+
 </style>
 </head>
 
 <body>
 
-<h1>Board Test</h1>
+<h1>Chess Analyzer</h1>
 
 <div id="board"></div>
 
 <script>
 
 const board = document.getElementById("board")
+
+const pieces=[
+"♜","♞","♝","♛","♚","♝","♞","♜",
+"♟","♟","♟","♟","♟","♟","♟","♟",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"♙","♙","♙","♙","♙","♙","♙","♙",
+"♖","♘","♗","♕","♔","♗","♘","♖"
+]
 
 for(let i=0;i<64;i++){
 
@@ -49,7 +62,7 @@ sq.classList.add("light")
 sq.classList.add("dark")
 }
 
-sq.innerText="."
+sq.innerText=pieces[i]
 
 board.appendChild(sq)
 
