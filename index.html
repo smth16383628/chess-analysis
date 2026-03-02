@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Chess Analyzer</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
 
 <style>
-
 body{
 font-family:Arial;
 padding:40px;
@@ -44,9 +42,7 @@ margin-top:10px;
 padding:10px;
 margin-right:5px;
 }
-
 </style>
-
 </head>
 
 <body>
@@ -56,92 +52,77 @@ margin-right:5px;
 <div id="board"></div>
 
 <p>Paste PGN:</p>
-
-<textarea id="pgn"></textarea>
-<br>
+<textarea id="pgn"></textarea><br>
 
 <button onclick="loadGame()">Load Game</button>
 <button onclick="nextMove()">Next Move</button>
 
 <script>
+const chess = new Chess();
+const board = document.getElementById("board");
 
-const chess = new Chess()
-const board = document.getElementById("board")
+let moves = [];
+let moveIndex = 0;
 
-let moves=[]
-let moveIndex=0
-
-const pieceSymbols={
-p:"♟",r:"♜",n:"♞",b:"♝",q:"♛",k:"♚",
-P:"♙",R:"♖",N:"♘",B:"♗",Q:"♕",K:"♔"
-}
+const pieceSymbols = {
+p:"♟", r:"♜", n:"♞", b:"♝", q:"♛", k:"♚",
+P:"♙", R:"♖", N:"♘", B:"♗", Q:"♕", K:"♔"
+};
 
 function drawBoard(){
+board.innerHTML="";
 
-board.innerHTML=""
-
-const state = chess.board()
+const state = chess.board();
 
 for(let r=0;r<8;r++){
-
 for(let c=0;c<8;c++){
 
-let square=document.createElement("div")
+let square=document.createElement("div");
+square.className="square";
 
-square.className="square"
+if((r+c)%2==0) square.classList.add("light");
+else square.classList.add("dark");
 
-if((r+c)%2==0) square.classList.add("light")
-else square.classList.add("dark")
-
-let piece = state[r][c]
+let piece = state[r][c];
 
 if(piece){
-let symbol = pieceSymbols[
-piece.color==="w" ? piece.type.toUpperCase() : piece.type
-]
-square.textContent = symbol
+let key = piece.color==="w" ? piece.type.toUpperCase() : piece.type;
+square.textContent = pieceSymbols[key];
 }
 
-board.appendChild(square)
+board.appendChild(square);
 
 }
-
 }
-
 }
 
 function loadGame(){
 
-chess.reset()
+let pgn=document.getElementById("pgn").value;
 
-let pgn=document.getElementById("pgn").value
+chess.reset();
+chess.load_pgn(pgn);
 
-chess.load_pgn(pgn)
+moves = chess.history();
+moveIndex = 0;
 
-moves = chess.history()
-
-moveIndex = 0
-
-chess.reset()
-
-drawBoard()
+chess.reset();
+drawBoard();
 
 }
 
 function nextMove(){
 
-if(moveIndex>=moves.length) return
+if(moveIndex>=moves.length) return;
 
-chess.move(moves[moveIndex])
+chess.move(moves[moveIndex]);
+moveIndex++;
 
-moveIndex++
-
-drawBoard()
+drawBoard();
 
 }
 
-drawBoard()
-
+drawBoard();
 </script>
 
 </body>
