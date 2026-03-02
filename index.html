@@ -1,118 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Chess Analyzer</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
-
 <style>
-
 body{
 font-family:Arial;
-background:#1f1f1f;
-color:white;
-display:flex;
-justify-content:center;
-padding-top:40px;
-}
-
-.container{
-display:flex;
-gap:40px;
+padding:40px;
 }
 
 #board{
-width:450px;
+width:400px;
+height:400px;
+display:grid;
+grid-template-columns:repeat(8,1fr);
+border:2px solid black;
 }
 
-.panel{
-width:300px;
+.square{
+width:50px;
+height:50px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
 }
+
+.light{background:#f0d9b5;}
+.dark{background:#b58863;}
 
 textarea{
-width:100%;
-height:150px;
-background:#2c2c2c;
-color:white;
-border:none;
-padding:10px;
+margin-top:20px;
+width:400px;
+height:120px;
 }
 
 button{
 margin-top:10px;
-padding:12px;
-width:100%;
-background:#4CAF50;
-color:white;
-border:none;
-font-size:16px;
-cursor:pointer;
+padding:10px;
 }
-
-button:hover{
-background:#45a049;
-}
-
-h1{
-text-align:center;
-margin-bottom:20px;
-}
-
 </style>
 
 </head>
 
 <body>
 
-<div class="container">
-
-<div>
 <h1>Chess Analyzer</h1>
+
 <div id="board"></div>
-</div>
 
-<div class="panel">
-
-<p>Paste PGN from chess.com:</p>
+<p>Paste PGN:</p>
 
 <textarea id="pgn"></textarea>
-
+<br>
 <button onclick="loadGame()">Load Game</button>
-
-</div>
-
-</div>
 
 <script>
 
-var board
-var game
+const board = document.getElementById("board")
 
-$(document).ready(function(){
+const pieces = [
+"♜","♞","♝","♛","♚","♝","♞","♜",
+"♟","♟","♟","♟","♟","♟","♟","♟",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"","","","","","","","",
+"♙","♙","♙","♙","♙","♙","♙","♙",
+"♖","♘","♗","♕","♔","♗","♘","♖"
+]
 
-game = new Chess()
+function drawBoard(){
 
-board = Chessboard('board',{
-position:'start'
-})
+board.innerHTML=""
 
-})
+for(let i=0;i<64;i++){
 
-function loadGame(){
+let sq=document.createElement("div")
+sq.classList.add("square")
 
-var pgn = document.getElementById("pgn").value
+let row=Math.floor(i/8)
+let col=i%8
 
-game.load_pgn(pgn)
+if((row+col)%2==0) sq.classList.add("light")
+else sq.classList.add("dark")
 
-board.position(game.fen())
+sq.textContent=pieces[i]
+
+board.appendChild(sq)
 
 }
+
+}
+
+function loadGame(){
+alert("PGN received")
+}
+
+drawBoard()
 
 </script>
 
