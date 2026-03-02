@@ -2,7 +2,16 @@
 <html>
 <head>
 
-<title>Free Chess Game Analyzer</title>
+<title>Free Chess Analyzer</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
 
 <style>
 
@@ -13,39 +22,18 @@ padding:40px;
 
 #board{
 width:400px;
-height:400px;
-display:grid;
-grid-template-columns:repeat(8,1fr);
-border:2px solid black;
-}
-
-.square{
-width:50px;
-height:50px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-}
-
-.light{
-background:#f0d9b5;
-}
-
-.dark{
-background:#b58863;
+margin-bottom:20px;
 }
 
 textarea{
-margin-top:20px;
 width:400px;
 height:120px;
 }
 
 button{
-margin-top:10px;
 padding:10px;
 font-size:16px;
+margin-top:10px;
 }
 
 </style>
@@ -68,53 +56,28 @@ font-size:16px;
 
 <script>
 
-const board = document.getElementById("board")
+var board
+var game
 
-const startPosition = [
-"♜","♞","♝","♛","♚","♝","♞","♜",
-"♟","♟","♟","♟","♟","♟","♟","♟",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"","","","","","","","",
-"♙","♙","♙","♙","♙","♙","♙","♙",
-"♖","♘","♗","♕","♔","♗","♘","♖"
-]
+$(document).ready(function(){
 
-function drawBoard(){
+game = new Chess()
 
-board.innerHTML=""
+board = Chessboard('board',{
+position:'start'
+})
 
-for(let i=0;i<64;i++){
-
-const square=document.createElement("div")
-
-square.classList.add("square")
-
-const row=Math.floor(i/8)
-const col=i%8
-
-if((row+col)%2==0){
-square.classList.add("light")
-}else{
-square.classList.add("dark")
-}
-
-square.textContent=startPosition[i]
-
-board.appendChild(square)
-
-}
-
-}
+})
 
 function loadGame(){
 
-alert("PGN received! Analysis coming in next version.")
+var pgn = document.getElementById("pgn").value
+
+game.load_pgn(pgn)
+
+board.position(game.fen())
 
 }
-
-drawBoard()
 
 </script>
 
